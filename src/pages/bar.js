@@ -1,6 +1,9 @@
+import button from '@components/Button/button';
+
 const moduleName = 'bar';
-const getName = () => moduleName;
-module.exports = {
-  name: 'bar',
-  getName,
+const getChunkName = () => button?.moduleName;
+
+export default {
+  moduleName,
+  getChunkName,
 };

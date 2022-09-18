@@ -2,4 +2,3 @@
 # https://eslint.bootcss.com/docs/user-guide/configuring#ignoring-files-and-directories
 node_modules/
 dist/
-webpack.config.js

@@ -1,4 +1,10 @@
 {
   /* 预设： 包含ECMAScript最新的语法、react语法 */
-  "presets": ["@babel/preset-env", "@babel/preset-react"]
+  /**
+  * jsx中存在两种新旧两种方式，1、自动引入React， 2、运行时注入，则不需要在jsx文件中手动引入React
+  * runtime:automatic
+  */
+  "presets": ["@babel/preset-env", ["@babel/preset-react", {
+    "runtime": "automatic"
+  }]]
 }

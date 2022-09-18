@@ -17,7 +17,7 @@ module.exports = function fileLoader(content, map = {}, meta = {}) {
   // todo 熟悉loaderUtils中的方法
   const interpolateName = loaderUtils.interpolateName(
     this,
-    'assets/[name].[contenthash].[ext][quesy]',
+    'assets/[name].[contenthash].[ext][query]',
     { content },
   );
 

@@ -25,6 +25,7 @@ async function getImport(context, resourcePath, content) {
     const importExp = regRes[1];
     if (!importExp) break;
     const url = regRes[2];
+    console.log(regRes);
 
     // 获取import导入的css文件的绝对路径
     // todo 熟悉 path.resolve,path.join等方法的操作方式
@@ -38,25 +39,31 @@ async function getImport(context, resourcePath, content) {
      * 如果当前工作目录为 /home/myself/node，
      * 则返回 '/home/myself/node/wwwroot/static_files/gif/image.gif'
      */
+    // file: /Users/10026468/Documents/学习/Webpack/juejin-webpack/webpack-basic/src/assets/inner.css
     const fileAbsoluteUrl = url?.startsWith('.') ? path.resolve(absolutePath, url) : url;
     // 读取目标文件的内容
     // todo fs文件系统
     const transformResult = fs.readFileSync(fileAbsoluteUrl, { encoding: 'utf-8' });
     // console.log(transformResult, importExp, 'content', newContent);
     // 将@import 关键字替换成文件读取的内容
+    // ? 如果两者都存在图片的引入，图片位置是以当前的css文件为相对路径进行引入，
+    // ? 每次引入一个css，则需要先将transformResult的图片路径进行转译
     newContent = newContent.replace(importExp, transformResult);
     // 递归处理更新后的内容
     // eslint-disable-next-line no-await-in-loop
     newContent = await getImport(context, fileAbsoluteUrl, newContent);
 
     // 每次遍历时，需要处理当前文件中的图片引入
+    // ? 将图片处理的方法抽离成一个抽象方法
     // eslint-disable-next-line no-cond-assign
     while (imgRes = urlReg.exec(newContent)) {
+      // ./assets/logo.png
       const imgUrl = imgRes[1];
       // 获取url方式引入图片的父目录
-      const absoluteImgPath = fileAbsoluteUrl.slice(0, fileAbsoluteUrl.lastIndexOf('/'));
+      // /Users/10026468/Documents/学习/Webpack/juejin-webpack/webpack-basic/src/assets
+      // const absoluteImgPath = fileAbsoluteUrl.slice(0, absolutePath.lastIndexOf('/'));
       // 引入图片的绝对路径
-      const imgAbsoluteUrl = url?.startsWith('.') ? path.resolve(absoluteImgPath, url) : url;
+      const imgAbsoluteUrl = imgUrl?.startsWith('.') ? path.resolve(absolutePath, imgUrl) : imgUrl;
 
       if (fs.existsSync(imgAbsoluteUrl)) {
         // 调用图片相关的loader进行处理

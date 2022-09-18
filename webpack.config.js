@@ -77,10 +77,10 @@ module.exports = {
        * */
       use: ['style-loader', 'css-loader'],
     }, {
-      test: /\.(png|jpg|gif)$/i,
-      type: 'asset/resource',
-      // use: 'file-loader',
-      // type: 'javascript/auto',
+      test: /\.(png|jpg|gif)$/g,
+      // type: 'asset/resource',
+      use: 'file-loader',
+      type: 'javascript/auto',
     }],
   },
   /** *  模块处理  end  */
